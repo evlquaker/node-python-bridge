@@ -4,7 +4,7 @@ let Promise = require('bluebird');
 let path = require('path');
 let child_process = Promise.promisifyAll(require('child_process'));
 
-const PYTHON_BRIDGE_SCRIPT = path.join(__dirname, 'node_python_bridge.py');
+const PYTHON_BRIDGE_SCRIPT = path.join(__dirname, 'node_python_bridge.py').replace('app.asar', 'app.asar.unpacked');
 
 function pythonBridge(opts) {
     // default options
@@ -32,7 +32,7 @@ function pythonBridge(opts) {
             }
 
             return enqueue(() => new Promise((resolve, reject) => {
-                ps.send({type: type, code: code});
+                ps.send({ type: type, code: code });
                 ps.once('message', onMessage);
                 ps.once('close', onClose);
 
